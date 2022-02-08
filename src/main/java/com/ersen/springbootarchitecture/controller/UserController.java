@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,21 @@ public class UserController {
     ResponseEntity<UserDto> getUserById(@PathVariable UUID id){
         return ResponseEntity.ok(userService.getUserById(id));
     }
+
+
+    @PutMapping("{id}")
+    @ApiOperation(value = "Update User")
+    ResponseEntity<UserDto> updateUser(@PathVariable UUID id, @RequestBody UserDto userDto){
+        return ResponseEntity.ok(userService.updateUser(id,userDto));
+    }
+
+
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "Delete User")
+    void deleteUser(@PathVariable UUID id){
+        userService.deleteUser(id);
+    }
+
 
 
 }

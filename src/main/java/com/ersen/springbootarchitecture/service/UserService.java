@@ -4,11 +4,10 @@ package com.ersen.springbootarchitecture.service;
 import com.ersen.springbootarchitecture.dto.UserDto;
 import com.ersen.springbootarchitecture.dto.request.CreateUserRequest;
 import com.ersen.springbootarchitecture.entity.User;
-import com.ersen.springbootarchitecture.exception.UserNotFoundException;
+import com.ersen.springbootarchitecture.exception.user.UserNotFoundException;
 import com.ersen.springbootarchitecture.mappers.UserMapper;
 import com.ersen.springbootarchitecture.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +24,7 @@ public class UserService {
 
     @PostConstruct
     public void  init(){
-        User user = User.builder()
+       /* User user = User.builder()
                 .id(UUID.randomUUID())
                 .userName("ErsenKocak")
                 .email("ersenkocak9@gmail.com")
@@ -34,7 +33,9 @@ public class UserService {
                 .surName("Koçak")
                 .build();
 
-        userRepository.save(user);
+
+
+        userRepository.save(user);*/
     }
 
     public UserDto saveUser(CreateUserRequest createUserRequest) {
@@ -44,13 +45,30 @@ public class UserService {
     }
 
     public List<UserDto> getAllUsers(){
-//        return userRepository.findAll().stream().map(UserMapper.INSTANCE::userToDto
-//        ).collect(Collectors.toList());
-        return UserMapper.INSTANCE.usersToDto(userRepository.findAll());
+        return userRepository.findAll().stream().map(UserMapper.INSTANCE::userToDto
+        ).collect(Collectors.toList());
     }
 
 
     public UserDto getUserById(UUID id) {
-        return UserMapper.INSTANCE.userToDto(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Kullanıcı Bulunamadı")));
+        return UserMapper.INSTANCE.userToDto(getById(id));
     }
+
+
+    public UserDto updateUser(UUID id, UserDto userDto) {
+        User user = getById(id);
+        User updatedUser = userRepository.save(UserMapper.INSTANCE.dtoToUser(userDto));
+        return UserMapper.INSTANCE.userToDto(updatedUser);
+    }
+
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
+    }
+
+
+    private User getById(UUID id ){
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Kullanıcı Bulunamadı"));
+    }
+
+
 }

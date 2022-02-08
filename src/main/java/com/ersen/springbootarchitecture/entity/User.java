@@ -1,10 +1,14 @@
 package com.ersen.springbootarchitecture.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -14,6 +18,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","posts"})
+
 public class User {
 
     @Id
@@ -38,7 +44,8 @@ public class User {
     private String surName;
 
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 
-
+    private List<Post> posts;
 
 }

@@ -1,16 +1,12 @@
 package com.ersen.springbootarchitecture.repository;
 
-
-import com.ersen.springbootarchitecture.entity.User;
+import com.ersen.springbootarchitecture.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
-
-
-
+public interface PostRepository extends JpaRepository<Post, UUID> {
 }
