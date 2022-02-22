@@ -1,12 +1,13 @@
 package com.ersen.springbootarchitecture.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,11 +18,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 
-public class Post{
+public class Post {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     private String title;
@@ -29,8 +29,13 @@ public class Post{
     @Column(length = 1000)
     private String description;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
+    @JsonBackReference
+    private List<Comment> comments;
+
 
 }

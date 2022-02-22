@@ -25,7 +25,7 @@ public class PostService {
     private final UserService userService;
 
     @PostConstruct
-    public void init(){
+    private void init(){
       /*  Post post = Post.builder()
                 .id(UUID.randomUUID())
                 .description("Description Test")
@@ -58,7 +58,7 @@ public class PostService {
         return PostMapper.INSTANCE.postToDto(postRepository.save(post));
     }
 
-    public PostDto updatePost(PostDto postDto){
+    public PostDto updatePost(PostDto postDto){ // TODO: Kontrol Et
         Post post = getPost(postDto.getId());
         Post updatedPost = postRepository.save(post);
         return PostMapper.INSTANCE.postToDto(updatedPost);

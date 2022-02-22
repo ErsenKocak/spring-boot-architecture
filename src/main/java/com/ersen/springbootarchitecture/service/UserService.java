@@ -56,7 +56,7 @@ public class UserService {
 
 
     public UserDto updateUser(UUID id, UserDto userDto) {
-        User user = getById(id);
+        getById(id);
         User updatedUser = userRepository.save(UserMapper.INSTANCE.dtoToUser(userDto));
         return UserMapper.INSTANCE.userToDto(updatedUser);
     }
